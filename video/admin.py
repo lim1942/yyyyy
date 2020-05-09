@@ -32,7 +32,11 @@ class VideoModelAdmin(admin.ModelAdmin):
         return super().get_readonly_fields(request, obj)
 
     def action(self,obj):
-        return mark_safe('<a target="_blank" href="{url}"><img src="{gif_url}" height="100" width="200"></a>'.format(url=obj.url,gif_url=obj.gif_url))
+        url = obj.url
+        gif_url = obj.gif_url
+        if not gif_url.startswith('http'):
+            gif_url = 'http://img.mp.sohu.com/upload/20170624/0b4fd6a4465b491791ff2a394a46740a_th.png'
+        return mark_safe('<a target="_blank" href="{url}"><img src="{gif_url}" height="100" width="200"></a>'.format(url=url,gif_url=gif_url))
 
     action.short_description = '播放'
 
